@@ -17,3 +17,15 @@ kubectl apply -f k8s
 
 #
 kubectl get deployments
+
+#List different options available for storage on host machine(pc)
+kubectl get storageclass
+
+# 
+kubectl describe storageclass
+
+#Create Secret
+kubectl create secret generic pgpassword --from-literal PGPASSWORD=<password>
+
+# verify secret
+kubectl get secrets
