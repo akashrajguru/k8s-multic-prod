@@ -29,3 +29,13 @@ kubectl create secret generic pgpassword --from-literal PGPASSWORD=<password>
 
 # verify secret
 kubectl get secrets
+
+# Enabling Ingress Locally
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/mandatory.yaml
+
+minikube addons enable ingress
+
+## step 1 
+kubectl create secret generic pgpassword --from-literal PGPASSWORD=<password>
+## step 2
+kubectl apply -f k8s

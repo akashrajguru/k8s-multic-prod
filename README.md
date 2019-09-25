@@ -36,3 +36,5 @@ volume which is not tied to any specific pod or any specific conatiner (can be s
 ##### Persisten Volume Claim in Kubernetes
 A persistent volume claim is a request for storage by a pod, similar to a pod requests compute resources. It provides an abstraction layer to underlying storage. For example, an administrator could create a number of static persistent volumes that can later be bound to one or more persistent volume claims. PVC can be statically provisioned (created ahead of time) or dynamically provisioned (created on the fly).
 
+# Enabling Ingress Locally
+
