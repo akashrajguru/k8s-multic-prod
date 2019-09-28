@@ -7,4 +7,17 @@ before_install:
   - source $HOME/google-cloud-sdk/path.bash.inc
   - gcloud components update kubectl
   - gcloud auth activate-service-account --key-file service-account.json
-  - 
+  - gcloud config set project k8s-multic-prod
+  - gcloud config set compute/zone europe-west1-b
+  - gcloud container clusters get-credentials k8s-milti-prod-cluster
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker build -t akash14/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true akash14/react-test npm run test -- --coverage
+
+deploy:
+  provider: script 
+  script: bash ./deploy.sh
+  on:
+    branch: master
