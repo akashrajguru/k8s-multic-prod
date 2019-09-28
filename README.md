@@ -38,3 +38,38 @@ A persistent volume claim is a request for storage by a pod, similar to a pod re
 
 # Enabling Ingress Locally
 
+
+# Production Deployemt steps
+  1. Create Github Repo
+  2. hook up repo to Tarvis CI
+  3. Create Google Cloud project
+  4. Enable billing for the project 
+  5. Add deployment scripts to the repo
+
+# Travis Config File
+  1. Install Google Cloud SDK cli
+  2. Configure the SDK without Google Cloud auth info
+  3. Long to docker cli
+  4. Build the test version of multi-client
+  5. Run tests
+  6. If tests are successful, run a script to deploy newest images
+  7. Build all our images, tag each one, push each to docker hub
+  8. Applt all configs in the k8s folder
+  9. Imperatively set latest images on each deployment
+
+#### Google cloud setup
+  1. Create a Srvice account
+  2. Download service account credentials in a json file
+  3. Download and install the travis CLI
+  4. Encrypy and upload the json file to our Travis account
+  5. In travis.yml, add code to unencrypt the json file and load it into GCloud SDK  
+ 
+#### Travis setup inside docker container
+  1. docker run -it -v $(pwd):/app ruby:2.3 sh
+  2. Inside conatiner
+     1. cd app
+     2. gem install travis --no-document
+     3. gem install taravis
+     4. travis login
+     5. copy json file into the volumed directory so we can use it in the container
+     6. travis encript-file service-account.json

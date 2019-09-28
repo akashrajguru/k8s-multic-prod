@@ -39,3 +39,11 @@ minikube addons enable ingress
 kubectl create secret generic pgpassword --from-literal PGPASSWORD=<password>
 ## step 2
 kubectl apply -f k8s
+
+
+## settingup Travis CLI 
+sudo docker run -it -v $(pwd):/app ruby:2.3 sh
+
+cd app
+
+gem install travis --no-document
