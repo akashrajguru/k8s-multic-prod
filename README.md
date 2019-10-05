@@ -62,7 +62,25 @@ A persistent volume claim is a request for storage by a pod, similar to a pod re
   2. Download service account credentials in a json file
   3. Download and install the travis CLI
   4. Encrypy and upload the json file to our Travis account
-  5. In travis.yml, add code to unencrypt the json file and load it into GCloud SDK  
+  5. In travis.yml, add code to unencrypt the json file and load it into GCloud SDK
+  6. Assigne secret to the Google cloud Cluster.
+     1. Use Activate Cloud Shell to ssh into your GCloud project environment.
+     2. `$ gcloud config set project project_id`
+     3. `$ gcloud config set compute/zone hosted_zone` 
+     4. `$ gcloud container clusters get-credentials cluster_name`
+     5. `$ kubectl create secret generic pgpassword --from-literal PGPASSWORD=mypgpassword123`
+     6. Install Helm
+     7. `$ curl -LO https://git.io/get_helm.sh`
+     8. `$ chmod 700 get_helm.sh`
+     9. `$ ./get_helm.sh`
+     10.  GKE Role-Based Access Control config with Helm [1]
+     11.  Create a new service account colled 'tiller in a kube-system namespace.
+     12.  `$ kubectl create serviceaccount --namespace kube-system tiller`
+     13.  Cearte a new ClusterRoleDinding with a role 'cluster-admin' and assign it to service account 'tiller' 
+     14.  `$ kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller`
+     15.  `$ helm init --service-account tiller --upgrade`
+     16.  Use Helm to install ingress-nginx
+     17.  `$ helm install stable/nginx-ingress --name my-nginx --set rbac.create=true` 
  
 #### Travis setup inside docker container
   1. docker run -it -v $(pwd):/app ruby:2.3 sh
@@ -73,3 +91,8 @@ A persistent volume claim is a request for storage by a pod, similar to a pod re
      4. travis login
      5. copy json file into the volumed directory so we can use it in the container
      6. travis encript-file service-account.json
+
+# References
+[1] https://kubernetes.github.io/ingress-nginx/deploy/#using-helm
+
+[2] https://helm.sh/docs/using_helm/#role-based-access-control 
